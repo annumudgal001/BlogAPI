@@ -1,15 +1,15 @@
 <header class="header">
-    <a href="/" class="header__logo">NodeJS</a>
+    <a href="/" class="header__logo">BlogAPI</a>
     <nav class="header__nav">
         <ul>
             <li>
-                <a href="/" class="">home</a>
+                <a href="/" class="<%=isActiveRoute('/','currentroute')%>">home</a>
             </li>
             <li>
-                <a href="/about" class="">about</a>
+                <a href="/about" class="<%=isActiveRoute('/about','currentroute')%>">about</a>
             </li>
             <li>
-                <a href="/contact" class="">contact</a>
+                <a href="/" class="<%=isActiveRoute('/contact','currentroute')%>">contact</a>
             </li>
         </ul>
     </nav>
@@ -19,5 +19,8 @@
             <img width="20" height="20" src="https://img.icons8.com/ios/20/search--v1.png" alt="search--v1" />    
             
         </button>
+        <a href="/admin" class=" searchbtn admin-login" style="margin-left:10px; display:flex; align-items:center; gap:0.3rem; padding:6px; border:2px solid transparent; border-radius:var(--border-radius); font-size:var(--font-size-base); font-weight:600; color:var(--black); text-decoration:none;">
+        Admin Login
+          </a>
     </div>
 </header>

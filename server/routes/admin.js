@@ -65,7 +65,7 @@ router.post("/admin", async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ userid: existinguser._id }, jwtsecret, { expiresIn: '1h' });
+        const token = jwt.sign({ userid: existinguser._id }, jwtsecret, { expiresIn: '2h' });
 
         // Set the token as an HTTP-only cookie
         res.cookie("token", token, { httpOnly: true });
@@ -79,7 +79,22 @@ router.post("/admin", async (req, res) => {
 
 // Dashboard Route (GET)
 router.get("/dashboard",authmiddleware, async (req, res) => {
-    res.render("admin/dashboard");
+    try {
+        const locals={
+            title: 'Dashboard',
+            description: 'dashboard for the admin'
+        }
+        const data=await post.find()
+        res.render("admin/dashboard",{
+            locals,
+            data,
+            layout:adminlayout
+        });
+
+
+    } catch (error) {
+        
+    }
 });
 
 // User Registration Route (POST)
@@ -111,5 +126,108 @@ router.post("/register", async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+//admin create new post
+router.get("/add-post",authmiddleware,async (req,res)=>{
+    try {
+        let locals={
+            title: 'Add New Post',
+            description: 'add new post to the blog'
+        }
+        const data=await post.find()
+        res.render("admin/add-post",{
+            locals,
+            layout:adminlayout
+        })
+        
+    } catch (error) {
+        console.error(error);
+    }
+})
+
+router.post("/add-post", authmiddleware, async (req, res) => {
+    try {
+        let locals = {
+            title: 'Add New Post',
+            description: 'Add new post to the blog'
+        };
+
+        const { title, body } = req.body;
+
+        // Attempt to create the post
+        const data = await post.create({ title, body });
+
+        // If post creation fails, return a 400 error
+        if (!data) {
+            return res.status(400).json({ message: 'Failed to create post' });
+        }
+
+        // Redirect to the dashboard on successful post creation
+        res.redirect("/dashboard");
+    } catch (error) {
+        // Respond with a server error if something goes wrong
+        res.status(500).json({ message: 'Server error while creating post',error });
+    }
+});
+
+
+router.put("/edit-post/:id",authmiddleware,async (req,res)=>{
+    try {
+        const {title,body}=req.body;
+        const id=req.params.id;
+        let locals = {
+            title: 'Edit Post',
+            description: 'edit post'
+        };
+        const updatepost=await post.findByIdAndUpdate({_id:id},{
+            title,
+            body,
+            updatedAt:  Date.now()
+        })
+        res.redirect(`/post/${id}`)
+        
+    } catch (error) {
+        console.error(error);
+    }
+})
+
+router.get("/edit-post/:id",authmiddleware,async (req,res)=>{
+    try {
+        locals={
+            title: 'Edit Post',
+            description: 'edit post'
+        }
+        const data=await post.findOne({_id:req.params.id})
+        res.render('admin/edit-post',{
+            data,
+            layout:adminlayout,
+            locals
+
+        })
+        
+    } catch (error) {
+        console.error(error);
+    }
+})
+
+router.delete("/delete-post/:id",authmiddleware,async (req,res)=>{
+    try {
+        const id=req.params.id;
+        await post.findByIdAndDelete(id)
+        res.redirect('/dashboard')
+        
+    } catch (error) {
+        console.error(error);
+    }
+})
+
+router.get("/logout",authmiddleware,(req,res)=>{
+    try {
+        res.clearCookie("token");
+        res.redirect("/admin");
+    } catch (error) {
+        console.error(error);
+    }
+})
 
 module.exports = router;

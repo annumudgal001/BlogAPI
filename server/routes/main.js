@@ -30,32 +30,14 @@ router.get("",async (req,res)=>{
             locals,
             data,
             current:page,
-            nextpage:hasnextpage?nextpage:null
+            nextpage:hasnextpage?nextpage:null,
+            currentroute:'/'
         })
     } catch (error) {
         console.error("Error fetching posts:", error.message);
         res.status(500).send("Server Error");
     }
 })
-
-
-// router.get("",async (req,res)=>{
-//     const locals={
-//         title: 'Node JS Blog',
-//         description: 'simple blog with node express mongo db'
-//     }
-
-//     try {
-//         const data=await post.find();
-//         res.render('index.ejs',{locals,data})
-//     } catch (error) {
-//         console.error("Error fetching posts:", error.message);
-//         res.status(500).send("Server Error");
-//     }
-// })
-
-
-
 
 
 router.get("/post/:id",async (req,res)=>{
@@ -71,7 +53,7 @@ router.get("/post/:id",async (req,res)=>{
             description: 'simple blog with node express mongo db'
         }
 
-        res.render('post.ejs',{locals,data})
+        res.render('post.ejs',{locals,data,currentroute:'/post/:id'})
     } catch (error) {
         console.error("Error fetching posts:", error.message);
         res.status(500).send("Server Error");
@@ -99,7 +81,7 @@ router.post("/search",async (req,res)=>{
             ]
         });
 
-        res.render('searchresult.ejs',{locals,data})
+        res.render('searchresult.ejs',{locals,data,currentroute:'/search'})
 
     } catch (error) {
         console.error("Error fetching posts:", error.message);
@@ -110,36 +92,8 @@ router.post("/search",async (req,res)=>{
 
 
 router.get("/about",(req,res)=>{
-    res.render('about.ejs')
+    res.render('about.ejs',{currentroute:'/search'})
 })
-
-
-// const insertpostdata = async () => {
-
-//    try {
-//        const result = await post.insertMany(
-//            [
-//                { title: "Building a Blog", body: "This is a sample post" },
-//                { title: "Node.js Basics", body: "Introduction to Node.js runtime" },
-//                { title: "Express Framework", body: "Creating web servers with Express" },
-//                { title: "MongoDB CRUD", body: "How to perform basic database operations" },
-//                { title: "REST API Design", body: "Principles of RESTful API development" },
-//                { title: "Middleware Concepts", body: "Understanding Express middleware" },
-//                { title: "Error Handling", body: "Best practices for error handling" },
-//                { title: "Authentication", body: "Implementing user login systems" },
-//                { title: "Deployment", body: "How to deploy Node.js applications" },
-//                { title: "Performance Tips", body: "Optimizing your Node.js app" }
-//            ]
-//        );
-//        console.log(`Inserted ${result.length} posts`);
-//        return result;
-//    } catch (error) {
-//        console.error("Insert failed:", error.message);
-//        throw error;
-//    }
-// };
-
-// insertpostdata();
 
 
 module.exports=router;
