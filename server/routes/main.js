@@ -141,4 +141,5 @@ router.get("/about",(req,res)=>{
 
 // insertpostdata();
 
-module.exports=router
+
+module.exports=router;
