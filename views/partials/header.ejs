@@ -1,26 +1,24 @@
 <header class="header">
-    <a href="/" class="header__logo">BlogAPI</a>
+    <a href="/" class="header__logo">Node JS Blog</a>
     <nav class="header__nav">
         <ul>
             <li>
-                <a href="/" class="<%=isActiveRoute('/','currentroute')%>">home</a>
+                <a href="/" class="<%= isActiveRoute('/', currentroute) %>">Home</a>
             </li>
             <li>
-                <a href="/about" class="<%=isActiveRoute('/about','currentroute')%>">about</a>
-            </li>
-            <li>
-                <a href="/" class="<%=isActiveRoute('/contact','currentroute')%>">contact</a>
+                <a href="/about" class="<%= isActiveRoute('/about', currentroute) %>">About</a>
             </li>
         </ul>
     </nav>
     <div class="header__button">
-        <button class="searchbtn" aria-expanded="false">
-            Search
-            <img width="20" height="20" src="https://img.icons8.com/ios/20/search--v1.png" alt="search--v1" />    
-            
+        <button class="searchbtn" aria-expanded="false" aria-label="Open search">
+            <i class="fas fa-search"></i>
         </button>
-        <a href="/admin" class=" searchbtn admin-login" style="margin-left:10px; display:flex; align-items:center; gap:0.3rem; padding:6px; border:2px solid transparent; border-radius:var(--border-radius); font-size:var(--font-size-base); font-weight:600; color:var(--black); text-decoration:none;">
-        Admin Login
-          </a>
+        <a href="/admin" class="btn btn-admin" aria-label="Admin login">
+            <i class="fas fa-user-lock"></i> Login
+        </a>
+        <button id="theme-toggle" class="btn theme-toggle" aria-label="Toggle dark/light theme">
+            <i class="fas fa-moon"></i>
+        </button>
     </div>
 </header>

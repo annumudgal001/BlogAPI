@@ -1,27 +1,34 @@
 <div class="author">
-    <h1 class="author__heading">Hi, i am Annu Mudgal.</h1>
-    <p class="author__body">Web Developer and Aspiring SDE.</p>
+    <div class="author__content">
+        <h1 class="author__project">Node JS Blog</h1>
+        <p class="author__name">Hi, I am <span class="author__highlight">Annu Mudgal</span>.</p>
+        <p class="author__body">Web Developer and Aspiring SDE</p>
+    </div>
 </div>
-<img src="/img/developer-8764523.jpg" alt="hero hero-image" class="hero-image" width="981" height="528" style="object-fit: cover;">
-
+<img src="/img/developer-8764523.jpg" alt="hero image" class="hero-image" width="981" height="528" style="object-fit: cover;">
 
 <section class="articles">
     <h2 class="articles__heading">Latest Posts</h2>
-    <ul class="article-ul">
-        <% data.forEach(post =>{%>
-
-   
-        <li>
-            <a href="/post/<%=post._id%>">
-                <span><%=post.title%></span>
-                <span class="article-list__date"><%=post.createdAt.toDateString() %></span>
-            </a>
-        </li>
-
-        <% })%>
-    </ul>
+    <div class="post-container">
+        <% data.forEach(post => { %>
+            <div class="post-card">
+                <a href="/post/<%= post._id %>" class="post-card__link" aria-label="Read post: <%= post.title %>">
+                    <h3 class="post-card__title"><%= post.title %></h3>
+                    <p class="post-card__date">
+                        <i class="fas fa-calendar-alt"></i>
+                        <%= post.createdAt.toDateString() %>
+                    </p>
+                    <span class="post-card__read">
+                        Read Post <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+            </div>
+        <% }) %>
+    </div>
     
-    <%if(nextpage!==null){%>
-        <a href="/?page=<%=nextpage%>" class="pagination">&lt; View Older Posts</a>
-    <%}%>
+    <% if (nextpage !== null) { %>
+        <a href="/?page=<%= nextpage %>" class="pagination">
+            <i class="fas fa-arrow-left"></i> View Older Posts
+        </a>
+    <% } %>
 </section>
